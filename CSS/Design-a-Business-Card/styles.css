@@ -12,6 +12,8 @@ body {
     width: 300px;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 200px;
+    margin-bottom: auto;
 }
 
 .profile-image {
