@@ -2,6 +2,7 @@ body {
     width: 100%;
     background-color: rosybrown;
     font-family: 'Arial', sans-serif;
+    padding: auto;
 }
 
 .business-card {
@@ -11,7 +12,6 @@ body {
     text-align: center;
     font-size: 16px;
     width: 300px;
-    margin: auto;
 }
 
 .profile-image {
