@@ -1,5 +1,25 @@
 body {
-  background-color: pink;
+  background-color: #aacc8c;
 }
 
+li {
+  text-align: center;
+  list-style-position: inside;
+  list-style-type: none;
+}
 
+a {
+  display: inline-block;
+  color: #ff8635;
+  background-color: #284457;
+  text-decoration: none;
+  padding: 15px;
+  margin: 10px;
+  font-family: Arial;
+  border-radius: 10px;
+}
+
+a:hover {
+  background-color: #ff8633;
+  color: #284457;
+}
