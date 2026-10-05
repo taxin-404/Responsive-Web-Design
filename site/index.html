@@ -67,14 +67,11 @@
   .logo {
     width: 30px;
     height: 30px;
-    border-radius: 8px;
     flex: none;
-    background: linear-gradient(135deg, #58a6ff, #b392f0 60%, #f778ba);
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    font-size: .8rem;
-    color: #0d1117;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
   }
 
   h1 { margin: 0; font-size: 1.15rem; letter-spacing: -.01em; }
@@ -376,7 +373,7 @@
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="logo" aria-hidden="true">R</div>
+    <img class="logo" src="https://avatars.githubusercontent.com/u/186607085?v=4&s=96" alt="taxin-404 avatar" width="30" height="30">
     <div>
       <h1>Project Gallery</h1>
       <p class="tagline">Responsive Web Design &mdash; HTML &amp; CSS work</p>
