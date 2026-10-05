@@ -24,17 +24,20 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Regenerate projects.json
+      - name: Regenerate manifest and README gallery
         run: node scripts/build-gallery.mjs
+
+      - name: Verify site assembles with no broken links
+        run: node scripts/build-site.mjs
 
       - name: Commit if changed
         run: |
-          if git diff --quiet -- projects.json; then
-            echo "projects.json already up to date"
+          if git diff --quiet -- projects.json README.md; then
+            echo "already up to date"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add projects.json
-          git commit -m "chore: regenerate projects.json"
+          git add projects.json README.md
+          git commit -m "chore: regenerate project gallery"
           git push
