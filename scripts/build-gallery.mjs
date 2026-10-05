@@ -87,7 +87,12 @@ function buildReadme(list) {
       `| ${p.order} | [${p.title}](${p.repoPath}/) | \`${p.category}\` | [\`index.html\`](${p.repoPath}/index.html) |`
     );
   }
-  lines.push("", "Live gallery: `site/index.html` — see [Cloudflare deploy](#deploy).", "", END);
+  lines.push(
+    "",
+    "Live: **https://responsive-web-design.taxin.workers.dev** — see [Cloudflare deploy](#deploy).",
+    "",
+    END
+  );
 
   const block = lines.join("\n");
 

@@ -5,9 +5,13 @@
 //   projects/*        -> dist/projects/
 //   projects.json     -> dist/projects.json
 //
-// Cloudflare Pages settings:
-//   Build command:      node scripts/build-site.mjs
-//   Build output dir:   dist
+// Cloudflare Workers settings (see wrangler.toml):
+//   Build command:    node scripts/build-gallery.mjs && node scripts/build-site.mjs
+//   Deploy command:   npx wrangler deploy
+//   Root directory:   . (repo root)
+//
+// wrangler.toml points [assets].directory at this script's output (dist/), so
+// only dist/ ever reaches Cloudflare — never the repo root, never .git.
 //
 // Keeping this dependency-free means the same script runs locally, in CI, and
 // on Cloudflare without an install step.

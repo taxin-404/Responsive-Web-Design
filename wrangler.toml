@@ -1,0 +1,7 @@
+name = "responsive-web-design"
+compatibility_date = "2026-10-05"
+
+# Static assets only: dist/ is produced by scripts/build-site.mjs,
+# which assembles site/ + projects/ + projects.json.
+[assets]
+directory = "./dist"

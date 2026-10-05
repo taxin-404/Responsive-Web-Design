@@ -2,6 +2,8 @@
 
 Personal collection of freeCodeCamp responsive-web-design projects — plain HTML and CSS, no frameworks.
 
+**Live site: https://responsive-web-design.taxin.workers.dev**
+
 The gallery on the repo home page and the deployed site are generated from whatever
 folders exist under [`projects/`](projects/). Add a folder, push, and it shows up on its own.
 
@@ -9,13 +11,13 @@ folders exist under [`projects/`](projects/). Add a folder, push, and it shows u
 
 ```
 README.md            this file (gallery table is auto-generated)
-site/index.html      the gallery page — also the deployed homepage
-site/styles.css      homepage styles for the old simple index
+site/index.html      the gallery page — deployed at /
 projects/HTML/       HTML-only projects
 projects/CSS/        HTML + CSS projects
 scripts/             build-gallery.mjs (manifest + README), build-site.mjs (dist)
 projects.json        generated manifest consumed by the gallery
-dist/                build output for Cloudflare (gitignored)
+wrangler.toml        Cloudflare Worker config — assets come from dist/
+dist/                build output (gitignored, never committed)
 ```
 
 ## Adding a project
@@ -29,12 +31,16 @@ Naming matters: the leading number sets the gallery order, so use `1_`, `2_`, `3
 
 ## Deploy
 
-Cloudflare Pages, from this repo:
+Cloudflare Workers (Git-connected), from this repo:
 
 | Setting | Value |
 | :-- | :-- |
 | Build command | `node scripts/build-gallery.mjs && node scripts/build-site.mjs` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | `.` (repo root — `wrangler.toml` must be reachable) |
+
+The build command assembles `dist/`, then wrangler uploads **only** `dist/` as Worker
+assets. Zero dependencies: plain `node` plus `npx` fetching wrangler on demand.
 
 ## Gallery
 
@@ -55,11 +61,16 @@ Cloudflare Pages, from this repo:
 | 5 | [Build an Event Flyer Page](projects/CSS/5_Build_an_Event_Flyer_Page/) | `CSS` | [`index.html`](projects/CSS/5_Build_an_Event_Flyer_Page/index.html) |
 | 6 | [Design a Greeting Card](projects/CSS/6_Design_a_Greeting_Card/) | `CSS` | [`index.html`](projects/CSS/6_Design_a_Greeting_Card/index.html) |
 
-Live gallery: `site/index.html` — see [Cloudflare deploy](#deploy).
+Live: **https://responsive-web-design.taxin.workers.dev** — see [Cloudflare deploy](#deploy).
 
 <!-- gallery:end -->
 
 ## Deploy notes
 
-`dist/` is assembled from `site/` + `projects/` + `projects.json`, so the live URLs
-are `/projects/HTML/…` and `/projects/CSS/…`. Old URLs at the repo root no longer resolve.
+`dist/` = `site/` + `projects/` + `projects.json`, so live URLs are `/` (the gallery),
+`/projects.json`, and `/projects/{HTML,CSS}/…`. Paths that existed at the old repo
+root (`/README.md`, `/scripts/…`, `/.git/…`) are deliberately not served.
+
+Never deploy with `wrangler.toml` removed or `assets.directory` pointed at the repo
+root — that would publish the `.git` directory. The committed `wrangler.toml` is what
+prevents it.
