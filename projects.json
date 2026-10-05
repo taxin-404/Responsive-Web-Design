@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-10-05T16:24:37.153Z",
+  "count": 10,
+  "projects": [
+    {
+      "folder": "1_Build_a_Curriculum_Outline",
+      "title": "Build a Curriculum Outline",
+      "category": "HTML",
+      "order": 1,
+      "url": "HTML/1_Build_a_Curriculum_Outline/index.html"
+    },
+    {
+      "folder": "2_Debug_Camperbot's_Profile_Page",
+      "title": "Debug Camperbot's Profile Page",
+      "category": "HTML",
+      "order": 2,
+      "url": "HTML/2_Debug_Camperbot's_Profile_Page/index.html"
+    },
+    {
+      "folder": "3_Debug_a_Pet_Adoption_Page",
+      "title": "Debug a Pet Adoption Page",
+      "category": "HTML",
+      "order": 3,
+      "url": "HTML/3_Debug_a_Pet_Adoption_Page/index.html"
+    },
+    {
+      "folder": "4_Build_a_Cat_Photo_App",
+      "title": "Build a Cat Photo App",
+      "category": "HTML",
+      "order": 4,
+      "url": "HTML/4_Build_a_Cat_Photo_App/index.html"
+    },
+    {
+      "folder": "1_Design_a_Cafe_Menu",
+      "title": "Design a Cafe Menu",
+      "category": "CSS",
+      "order": 1,
+      "url": "CSS/1_Design_a_Cafe_Menu/index.html"
+    },
+    {
+      "folder": "2_Design_a_Business_Card",
+      "title": "Design a Business Card",
+      "category": "CSS",
+      "order": 2,
+      "url": "CSS/2_Design_a_Business_Card/index.html"
+    },
+    {
+      "folder": "3_Build_a_Stylized_To-Do_list",
+      "title": "Build a Stylized To Do list",
+      "category": "CSS",
+      "order": 3,
+      "url": "CSS/3_Build_a_Stylized_To-Do_list/index.html"
+    },
+    {
+      "folder": "4_Design_a_Blog_Post_Card",
+      "title": "Design a Blog Post Card",
+      "category": "CSS",
+      "order": 4,
+      "url": "CSS/4_Design_a_Blog_Post_Card/index.html"
+    },
+    {
+      "folder": "5_Build_an_Event_Flyer_Page",
+      "title": "Build an Event Flyer Page",
+      "category": "CSS",
+      "order": 5,
+      "url": "CSS/5_Build_an_Event_Flyer_Page/index.html"
+    },
+    {
+      "folder": "6_Design_a_Greeting_Card",
+      "title": "Design a Greeting Card",
+      "category": "CSS",
+      "order": 6,
+      "url": "CSS/6_Design_a_Greeting_Card/index.html"
+    }
+  ]
+}

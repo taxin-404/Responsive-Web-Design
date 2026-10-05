@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Gallery</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --line: #30363d;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --html: #3fb950;
+    --css: #d29922;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 1200px; margin: 0 auto; }
+  header { margin-bottom: 2rem; }
+  h1 { margin: 0 0 .35rem; font-size: 1.9rem; letter-spacing: -.02em; }
+  .sub { margin: 0; color: var(--muted); font-size: .95rem; }
+  .bar {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    align-items: center; margin: 1.5rem 0;
+  }
+  .bar a.back { color: var(--muted); text-decoration: none; font-size: .875rem; }
+  .bar a.back:hover { color: var(--accent); }
+  .tabs { display: flex; gap: .5rem; margin-left: auto; flex-wrap: wrap; }
+  .tab {
+    background: transparent; color: var(--muted); cursor: pointer;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: .35rem .9rem; font: inherit; font-size: .875rem;
+  }
+  .tab:hover { color: var(--fg); border-color: var(--muted); }
+  .tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #0d1117; font-weight: 600; }
+  .grid {
+    display: grid; gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  .card {
+    display: flex; flex-direction: column;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .preview {
+    position: relative; aspect-ratio: 16 / 10;
+    background: #0d1117; border-bottom: 1px solid var(--line); overflow: hidden;
+  }
+  .preview iframe {
+    width: 400%; height: 400%; border: 0;
+    transform: scale(.25); transform-origin: 0 0;
+    pointer-events: none;
+  }
+  .meta { padding: .85rem 1rem 1rem; display: flex; flex-direction: column; gap: .4rem; }
+  .title { font-weight: 600; font-size: 1rem; }
+  .path { color: var(--muted); font-size: .75rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+  .tag {
+    align-self: flex-start; font-size: .7rem; font-weight: 700;
+    letter-spacing: .04em; padding: .15rem .45rem; border-radius: 4px;
+  }
+  .tag.HTML { color: var(--html); background: rgba(63, 185, 80, .12); }
+  .tag.CSS  { color: var(--css);  background: rgba(210, 153, 34, .12); }
+  #status { margin-top: 1.75rem; color: var(--muted); font-size: .8rem; }
+  #status.error { color: #f85149; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Project Gallery</h1>
+    <p class="sub">Every HTML and CSS project in this repository, newest numbering last.</p>
+  </header>
+
+  <div class="bar">
+    <a class="back" href="./index.html">&larr; Simple index</a>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-filter="all"   aria-selected="true">All</button>
+      <button class="tab" role="tab" data-filter="HTML" aria-selected="false">HTML</button>
+      <button class="tab" role="tab" data-filter="CSS"  aria-selected="false">CSS</button>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <p id="status">Loading projects…</p>
+</main>
+
+<script>
+const REPO = "taxin-404/Responsive-Web-Design";
+const CACHE_KEY = "rwd-gallery-v1";
+const grid = document.getElementById("grid");
+const status = document.getElementById("status");
+const tabs = [...document.querySelectorAll(".tab")];
+let projects = [];
+let filter = "all";
+
+function fromTree(tree) {
+  return tree
+    .filter((e) => e.type === "blob" && /^[^/]+\/[^/]+\/index\.html?$/.test(e.path))
+    .map((e) => {
+      const [category, folder] = e.path.split("/");
+      const m = folder.match(/^(\d+)[_-]/);
+      return {
+        folder,
+        title: folder.replace(/^\d+[_-]/, "").replace(/[-_]+/g, " ").trim(),
+        category,
+        order: m ? Number(m[1]) : 999,
+        url: e.path.replace(/\.htm$/, ".html"),
+      };
+    })
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+}
+
+async function load() {
+  try {
+    const res = await fetch("projects.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    if (!data.projects?.length) throw new Error("empty manifest");
+    localStorage.setItem(CACHE_KEY, JSON.stringify(data.projects));
+    return { projects: data.projects, source: "manifest" };
+  } catch {
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${REPO}/git/trees/HEAD?recursive=1`
+      );
+      if (!res.ok) throw new Error("GitHub API " + res.status);
+      const data = await res.json();
+      return { projects: fromTree(data.tree), source: "live GitHub API" };
+    } catch (err) {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) return { projects: JSON.parse(cached), source: "cached copy", warn: String(err.message) };
+      throw new Error(
+        "Could not load projects.json and the GitHub API is unavailable (" + err.message + ")."
+      );
+    }
+  }
+}
+
+function render() {
+  const shown = filter === "all" ? projects : projects.filter((p) => p.category === filter);
+  grid.innerHTML = "";
+  for (const p of shown) {
+    const a = document.createElement("a");
+    a.className = "card";
+    a.href = "./" + p.url;
+
+    const preview = document.createElement("div");
+    preview.className = "preview";
+    const frame = document.createElement("iframe");
+    frame.src = "./" + p.url;
+    frame.loading = "lazy";
+    frame.title = "Preview of " + p.title;
+    frame.setAttribute("tabindex", "-1");
+    frame.setAttribute("scrolling", "no");
+    preview.append(frame);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    const tag = document.createElement("span");
+    tag.className = "tag " + p.category;
+    tag.textContent = p.category;
+    const title = document.createElement("span");
+    title.className = "title";
+    title.textContent = p.title;
+    const path = document.createElement("span");
+    path.className = "path";
+    path.textContent = p.url;
+    meta.append(tag, title, path);
+
+    a.append(preview, meta);
+    grid.append(a);
+  }
+}
+
+tabs.forEach((tab) =>
+  tab.addEventListener("click", () => {
+    filter = tab.dataset.filter;
+    tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+    render();
+  })
+);
+
+load()
+  .then(({ projects: list, source, warn }) => {
+    projects = list;
+    render();
+    status.classList.remove("error");
+    status.textContent = `${projects.length} projects · source: ${source}` + (warn ? ` (${warn})` : "");
+  })
+  .catch((err) => {
+    status.classList.add("error");
+    status.textContent = err.message;
+  });
+</script>
+</body>
+</html>
