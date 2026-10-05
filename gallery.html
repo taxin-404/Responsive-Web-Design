@@ -7,101 +7,433 @@
 <style>
   :root {
     --bg: #0d1117;
-    --card: #161b22;
+    --panel: #161b22;
+    --panel-2: #1c2129;
     --line: #30363d;
     --fg: #e6edf3;
     --muted: #8b949e;
     --accent: #58a6ff;
     --html: #3fb950;
     --css: #d29922;
+    --radius: 12px;
+    --wrap: 1200px;
   }
+
   * { box-sizing: border-box; }
+
+  html { color-scheme: dark; }
+
   body {
     margin: 0;
-    padding: 2.5rem 1.25rem 4rem;
-    background: var(--bg);
+    min-height: 100vh;
+    background:
+      radial-gradient(1100px 500px at 50% -240px, rgba(88, 166, 255, .10), transparent 70%),
+      var(--bg);
     color: var(--fg);
-    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
   }
-  main { max-width: 1200px; margin: 0 auto; }
-  header { margin-bottom: 2rem; }
-  h1 { margin: 0 0 .35rem; font-size: 1.9rem; letter-spacing: -.02em; }
-  .sub { margin: 0; color: var(--muted); font-size: .95rem; }
-  .bar {
-    display: flex; flex-wrap: wrap; gap: .5rem;
-    align-items: center; margin: 1.5rem 0;
+
+  a { color: var(--accent); }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
   }
-  .bar a.back { color: var(--muted); text-decoration: none; font-size: .875rem; }
-  .bar a.back:hover { color: var(--accent); }
-  .tabs { display: flex; gap: .5rem; margin-left: auto; flex-wrap: wrap; }
+
+  /* ---------- header ---------- */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(13, 17, 23, .82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    flex: none;
+    background: linear-gradient(135deg, #58a6ff, #b392f0 60%, #f778ba);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: .8rem;
+    color: #0d1117;
+  }
+
+  h1 { margin: 0; font-size: 1.15rem; letter-spacing: -.01em; }
+  .tagline { margin: .1rem 0 0; font-size: .8rem; color: var(--muted); }
+
+  .head-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  .counter {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .counter::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--html);
+    box-shadow: 0 0 0 3px rgba(63, 185, 80, .18);
+  }
+
+  .head-actions a { color: var(--muted); text-decoration: none; }
+  .head-actions a:hover { color: var(--accent); }
+
+  /* ---------- toolbar ---------- */
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: center;
+    margin-bottom: 1.35rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: .25rem;
+    padding: .25rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+
   .tab {
-    background: transparent; color: var(--muted); cursor: pointer;
-    border: 1px solid var(--line); border-radius: 999px;
-    padding: .35rem .9rem; font: inherit; font-size: .875rem;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: .825rem;
+    font-weight: 600;
+    padding: .4rem .9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    white-space: nowrap;
+    transition: color .12s, background .12s;
   }
-  .tab:hover { color: var(--fg); border-color: var(--muted); }
-  .tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #0d1117; font-weight: 600; }
+
+  .tab:hover { color: var(--fg); }
+
+  .tab[aria-selected="true"] {
+    background: var(--accent);
+    color: #0d1117;
+  }
+
+  .tab .n {
+    font-size: .7rem;
+    font-variant-numeric: tabular-nums;
+    padding: 0 .32rem;
+    min-width: 1.15rem;
+    text-align: center;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, .18);
+    color: inherit;
+  }
+
+  .tab[aria-selected="true"] .n { background: rgba(13, 17, 23, .22); }
+
+  .search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: .4rem .9rem;
+    min-width: min(100%, 240px);
+  }
+
+  .search svg { flex: none; opacity: .55; }
+
+  .search input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    color: var(--fg);
+    font: inherit;
+    font-size: .85rem;
+    outline: none;
+  }
+
+  .search input::placeholder { color: var(--muted); }
+
+  /* ---------- grid & cards ---------- */
+
   .grid {
-    display: grid; gap: 1.25rem;
+    display: grid;
+    gap: 1.15rem;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
+
   .card {
-    display: flex; flex-direction: column;
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit;
-    transition: transform .15s ease, border-color .15s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
   }
-  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(88, 166, 255, .55);
+    box-shadow: 0 12px 28px -14px rgba(0, 0, 0, .9);
+  }
+
   .preview {
-    position: relative; aspect-ratio: 16 / 10;
-    background: #0d1117; border-bottom: 1px solid var(--line); overflow: hidden;
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
   }
+
   .preview iframe {
-    width: 400%; height: 400%; border: 0;
-    transform: scale(.25); transform-origin: 0 0;
+    display: block;
+    width: 400%;
+    height: 400%;
+    border: 0;
+    transform: scale(.25);
+    transform-origin: 0 0;
     pointer-events: none;
   }
-  .meta { padding: .85rem 1rem 1rem; display: flex; flex-direction: column; gap: .4rem; }
-  .title { font-weight: 600; font-size: 1rem; }
-  .path { color: var(--muted); font-size: .75rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
-  .tag {
-    align-self: flex-start; font-size: .7rem; font-weight: 700;
-    letter-spacing: .04em; padding: .15rem .45rem; border-radius: 4px;
+
+  .card-body { padding: .9rem 1rem 1rem; }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .45rem;
   }
-  .tag.HTML { color: var(--html); background: rgba(63, 185, 80, .12); }
-  .tag.CSS  { color: var(--css);  background: rgba(210, 153, 34, .12); }
-  #status { margin-top: 1.75rem; color: var(--muted); font-size: .8rem; }
-  #status.error { color: #f85149; }
+
+  .chip {
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    padding: .16rem .45rem;
+    border-radius: 5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  .chip.HTML { color: var(--html); background: rgba(63, 185, 80, .13); }
+  .chip.CSS  { color: var(--css);  background: rgba(210, 153, 34, .13); }
+
+  .num {
+    font-size: .7rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .arrow {
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform .16s, color .16s;
+  }
+
+  .card:hover .arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+  .title {
+    margin: 0;
+    font-size: .975rem;
+    font-weight: 650;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .folder {
+    margin: .3rem 0 0;
+    font-size: .72rem;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- skeletons / empty / status ---------- */
+
+  .skeleton {
+    pointer-events: none;
+    border-color: var(--line);
+  }
+
+  .skeleton .preview,
+  .skeleton .bar {
+    background: linear-gradient(100deg, var(--panel-2) 30%, #242b35 50%, var(--panel-2) 70%);
+    background-size: 300% 100%;
+    animation: shimmer 1.3s ease-in-out infinite;
+  }
+
+  .skeleton .preview { border-bottom: 1px solid var(--line); }
+  .skeleton .bar { height: .8rem; border-radius: 6px; margin-bottom: .55rem; }
+  .skeleton .bar.short { width: 45%; margin-bottom: 0; }
+  .skeleton .card-body { padding: .9rem 1rem 1rem; }
+
+  @keyframes shimmer {
+    0% { background-position: 150% 0; }
+    100% { background-position: -150% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .arrow, .tab { transition: none; }
+    .skeleton .preview, .skeleton .bar { animation: none; }
+  }
+
+  .state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3.5rem 1rem;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    color: var(--muted);
+  }
+
+  .state strong { color: var(--fg); display: block; margin-bottom: .3rem; }
+
+  .status {
+    margin: 1.5rem 0 0;
+    font-size: .78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+
+  .status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex: none;
+  }
+
+  .status[data-state="live"]::before { background: var(--html); }
+  .status[data-state="fail"]::before { background: #f85149; }
+  .status[data-state="fail"] { color: #f85149; }
+
+  @media (max-width: 640px) {
+    .head-actions { margin-left: 0; width: 100%; justify-content: space-between; }
+    .search { margin-left: 0; width: 100%; }
+    .tabs { width: 100%; }
+    .tab { flex: 1; justify-content: center; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>Project Gallery</h1>
-    <p class="sub">Every HTML and CSS project in this repository, newest numbering last.</p>
-  </header>
 
-  <div class="bar">
-    <a class="back" href="./index.html">&larr; Simple index</a>
-    <div class="tabs" role="tablist">
-      <button class="tab" role="tab" data-filter="all"   aria-selected="true">All</button>
-      <button class="tab" role="tab" data-filter="HTML" aria-selected="false">HTML</button>
-      <button class="tab" role="tab" data-filter="CSS"  aria-selected="false">CSS</button>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo" aria-hidden="true">R</div>
+    <div>
+      <h1>Project Gallery</h1>
+      <p class="tagline">Responsive Web Design &mdash; HTML &amp; CSS work</p>
     </div>
+    <div class="head-actions">
+      <span class="counter" id="counter">0 projects</span>
+      <a href="./index.html">Simple index</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <div class="tabs" role="tablist" aria-label="Filter projects by type">
+      <button class="tab" role="tab" data-filter="all" aria-selected="true">All <span class="n" data-count="all">0</span></button>
+      <button class="tab" role="tab" data-filter="HTML" aria-selected="false">HTML <span class="n" data-count="HTML">0</span></button>
+      <button class="tab" role="tab" data-filter="CSS" aria-selected="false">CSS <span class="n" data-count="CSS">0</span></button>
+    </div>
+
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M11.5 7a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm-.82 4.74a6 6 0 1 1 1.06-1.06l3.04 3.04a.75.75 0 1 1-1.06 1.06l-3.04-3.04Z"/>
+      </svg>
+      <input type="search" id="search" placeholder="Search projects…" aria-label="Search projects">
+    </label>
   </div>
 
   <div class="grid" id="grid"></div>
-  <p id="status">Loading projects…</p>
+
+  <p class="status" id="status" role="status" aria-live="polite">Loading projects…</p>
 </main>
 
 <script>
 const REPO = "taxin-404/Responsive-Web-Design";
 const CACHE_KEY = "rwd-gallery-v1";
 const grid = document.getElementById("grid");
-const status = document.getElementById("status");
+const statusEl = document.getElementById("status");
+const counterEl = document.getElementById("counter");
+const searchEl = document.getElementById("search");
 const tabs = [...document.querySelectorAll(".tab")];
+
 let projects = [];
 let filter = "all";
+let query = "";
+
+function skeleton() {
+  grid.innerHTML = "";
+  for (let i = 0; i < 6; i++) {
+    const c = document.createElement("div");
+    c.className = "card skeleton";
+    c.setAttribute("aria-hidden", "true");
+    c.innerHTML =
+      '<div class="preview"></div>' +
+      '<div class="card-body"><div class="bar short"></div><div class="bar"></div></div>';
+    grid.append(c);
+  }
+}
 
 function fromTree(tree) {
   return tree
@@ -138,7 +470,9 @@ async function load() {
       return { projects: fromTree(data.tree), source: "live GitHub API" };
     } catch (err) {
       const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) return { projects: JSON.parse(cached), source: "cached copy", warn: String(err.message) };
+      if (cached) {
+        return { projects: JSON.parse(cached), source: "cached copy", warn: err.message };
+      }
       throw new Error(
         "Could not load projects.json and the GitHub API is unavailable (" + err.message + ")."
       );
@@ -146,40 +480,77 @@ async function load() {
   }
 }
 
+function counts() {
+  const tally = { all: projects.length, HTML: 0, CSS: 0 };
+  for (const p of projects) if (tally[p.category] !== undefined) tally[p.category]++;
+  document.querySelectorAll("[data-count]").forEach((el) => {
+    el.textContent = tally[el.dataset.count];
+  });
+  counterEl.textContent = projects.length + " project" + (projects.length === 1 ? "" : "s");
+}
+
+function visible() {
+  const q = query.trim().toLowerCase();
+  return projects.filter((p) => {
+    if (filter !== "all" && p.category !== filter) return false;
+    if (!q) return true;
+    return (p.title + " " + p.folder + " " + p.category).toLowerCase().includes(q);
+  });
+}
+
 function render() {
-  const shown = filter === "all" ? projects : projects.filter((p) => p.category === filter);
+  const shown = visible();
   grid.innerHTML = "";
+
+  if (!shown.length) {
+    const state = document.createElement("div");
+    state.className = "state";
+    state.innerHTML =
+      "<strong>No projects found</strong>" +
+      (query
+        ? "Nothing matches &ldquo;" + escapeHtml(query) + "&rdquo;."
+        : "Add a folder with an <code>index.html</code> under HTML/ or CSS/ and push.");
+    grid.append(state);
+    return;
+  }
+
   for (const p of shown) {
     const a = document.createElement("a");
     a.className = "card";
-    a.href = "./" + p.url;
+    a.href = "./" + encodeURI(p.url);
 
     const preview = document.createElement("div");
     preview.className = "preview";
     const frame = document.createElement("iframe");
-    frame.src = "./" + p.url;
+    frame.src = "./" + encodeURI(p.url);
     frame.loading = "lazy";
     frame.title = "Preview of " + p.title;
-    frame.setAttribute("tabindex", "-1");
+    frame.tabIndex = -1;
     frame.setAttribute("scrolling", "no");
     preview.append(frame);
 
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    const tag = document.createElement("span");
-    tag.className = "tag " + p.category;
-    tag.textContent = p.category;
-    const title = document.createElement("span");
-    title.className = "title";
-    title.textContent = p.title;
-    const path = document.createElement("span");
-    path.className = "path";
-    path.textContent = p.url;
-    meta.append(tag, title, path);
+    const body = document.createElement("div");
+    body.className = "card-body";
+    body.innerHTML =
+      '<div class="card-top">' +
+        '<span class="chip ' + p.category + '">' + p.category + "</span>" +
+        '<span class="num">#' + p.order + "</span>" +
+        '<svg class="arrow" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">' +
+          '<path d="M4.5 3a.75.75 0 0 0 0 1.5h5.69L3.22 11.47a.75.75 0 1 0 1.06 1.06L11.25 5.56v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5Z"/>' +
+        "</svg>" +
+      "</div>" +
+      '<h2 class="title">' + escapeHtml(p.title) + "</h2>" +
+      '<p class="folder">' + escapeHtml(p.folder) + "</p>";
 
-    a.append(preview, meta);
+    a.append(preview, body);
     grid.append(a);
   }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+  );
 }
 
 tabs.forEach((tab) =>
@@ -190,16 +561,26 @@ tabs.forEach((tab) =>
   })
 );
 
+searchEl.addEventListener("input", () => {
+  query = searchEl.value;
+  render();
+});
+
+skeleton();
 load()
   .then(({ projects: list, source, warn }) => {
     projects = list;
+    counts();
     render();
-    status.classList.remove("error");
-    status.textContent = `${projects.length} projects · source: ${source}` + (warn ? ` (${warn})` : "");
+    statusEl.dataset.state = "live";
+    statusEl.textContent =
+      projects.length + " projects · source: " + source + (warn ? " (" + warn + ")" : "");
   })
   .catch((err) => {
-    status.classList.add("error");
-    status.textContent = err.message;
+    statusEl.dataset.state = "fail";
+    statusEl.textContent = err.message;
+    grid.innerHTML = '<div class="state"><strong>Unable to load projects</strong>' +
+      escapeHtml(err.message) + "</div>";
   });
 </script>
 </body>
