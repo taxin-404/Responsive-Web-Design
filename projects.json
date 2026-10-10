@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-05T16:40:58.665Z",
-  "count": 10,
+  "generatedAt": "2026-10-10T12:05:08.532Z",
+  "count": 11,
   "projects": [
     {
       "folder": "1_Build_a_Curriculum_Outline",
@@ -81,6 +81,14 @@
       "order": 6,
       "url": "projects/CSS/6_Design_a_Greeting_Card/index.html",
       "repoPath": "projects/CSS/6_Design_a_Greeting_Card"
+    },
+    {
+      "folder": "7_Design_a_Parent_Teacher_Conference_Form",
+      "title": "Design a Parent Teacher Conference Form",
+      "category": "CSS",
+      "order": 7,
+      "url": "projects/CSS/7_Design_a_Parent_Teacher_Conference_Form/index.html",
+      "repoPath": "projects/CSS/7_Design_a_Parent_Teacher_Conference_Form"
     }
   ]
 }
