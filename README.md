@@ -46,7 +46,7 @@ assets. Zero dependencies: plain `node` plus `npx` fetching wrangler on demand.
 
 <!-- gallery:begin -->
 
-**11 projects** — 4 HTML · 7 CSS
+**12 projects** — 4 HTML · 8 CSS
 
 | # | Project | Type | Source |
 | --: | :-- | :-- | :-- |
@@ -61,6 +61,7 @@ assets. Zero dependencies: plain `node` plus `npx` fetching wrangler on demand.
 | 5 | [Build an Event Flyer Page](projects/CSS/5_Build_an_Event_Flyer_Page/) | `CSS` | [`index.html`](projects/CSS/5_Build_an_Event_Flyer_Page/index.html) |
 | 6 | [Design a Greeting Card](projects/CSS/6_Design_a_Greeting_Card/) | `CSS` | [`index.html`](projects/CSS/6_Design_a_Greeting_Card/index.html) |
 | 7 | [Design a Parent Teacher Conference Form](projects/CSS/7_Design_a_Parent_Teacher_Conference_Form/) | `CSS` | [`index.html`](projects/CSS/7_Design_a_Parent_Teacher_Conference_Form/index.html) |
+| 8 | [Build a Job Application Form](projects/CSS/8_Build_a_Job_Application_Form/) | `CSS` | [`index.html`](projects/CSS/8_Build_a_Job_Application_Form/index.html) |
 
 Live: **https://responsive-web-design.taxin.workers.dev** — see [Cloudflare deploy](#deploy).
 
