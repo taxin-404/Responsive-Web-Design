@@ -1,5 +1,0 @@
-dist/
-node_modules/
-wrangler.jsonc
-.wrangler/
-.DS_Store
